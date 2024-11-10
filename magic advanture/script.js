@@ -2,10 +2,17 @@ const boardSize = 8;
 const colors = ["red", "blue", "green", "yellow", "purple"];
 const score = 100;
 let curScore = 0;
+let timeLeft = 60; // 초기 시간 설정 (60초)
+let timerInterval;
 
 let board = [];
 let draggedTile = null;
 let targetTile = null;
+
+function startGame() {
+    initializeBoard(); // 보드 초기화
+    startTimer(); // 타이머 시작
+}
 
 function initializeBoard() {
     board = Array.from({ length: boardSize }, () => Array.from({ length: boardSize }, () => null));
@@ -135,7 +142,7 @@ function checkMatches() {
     if (matchFound) {
         getScore();
         removeMatchedTiles(Array.from(matchedTiles));
-        setTimeout(generateNewTiles, 500); // 매치된 자리 채우기
+        setTimeout(generateNewTiles, 500);
     }
 
     return matchFound;
@@ -176,10 +183,30 @@ function generateNewTiles() {
 }
 
 function getScore() {
-    console.log("점수 얻음");
     const scoreBoard = document.getElementById("score-board");
     curScore += score;
     scoreBoard.innerText = 'score: ' + curScore;
 }
 
-initializeBoard();
+// 타이머 시작 함수
+function startTimer() {
+    const timerBoard = document.getElementById("timer-board");
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        timerBoard.innerText = `time: ${timeLeft}`;
+        
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            endGame();
+        }
+    }, 1000); // 1초마다 업데이트
+}
+
+// 게임 종료 함수
+function endGame() {
+    alert("시간 종료! 게임이 끝났습니다.");
+    // 추가적인 게임 종료 로직을 여기에 추가할 수 있습니다.
+}
+
+
+
