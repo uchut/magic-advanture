@@ -9,7 +9,7 @@ let timerInterval; //간격
 
 let stageNum = 1; //단계
 let clearScore = 1000; //목표 점수
-let isCleared = 0; //클리어 여부 1은 클리어 0은 실패
+let isCleared = true;
 
 let board = [];
 let draggedTile = null;
@@ -218,10 +218,10 @@ function startTimer() {
         timeLeft--;
         timerBoard.innerText = `time: ${timeLeft}`;
         checkIsCleared();
-        if(isCleared == 1)
+        if(isCleared == false)
         {
             clearInterval(timerInterval);
-            isCleared = 0;
+            isCleared = true;
             return;
         }
         if (timeLeft <= 0) {
@@ -239,7 +239,7 @@ function checkIsCleared() {
         stageNum++;
         clearScore = stageNum * 1000;
         endGame();
-        isCleared = 1;
+        isCleared = true;
         return;
     }
     else
