@@ -1,17 +1,27 @@
 const boardSize = 8;
 const colors = ["red", "blue", "green", "yellow", "purple"];
 const score = 100;
-let curScore = 0;
-let timeLeft = 60; 
-let timerInterval;
+
+let curScore = 0; //현재 점수
+const firstTimeLeft = 45; //1스테이지 제한시간
+let timeLeft = 45; //실제 카운트다운용 변수
+let timerInterval; //간격
+
+let stageNum = 1; //단계
+let clearScore = 1000; //목표 점수
+let isCleared = 0; //클리어 여부
 
 let board = [];
 let draggedTile = null;
 let targetTile = null;
 
 function startGame() {
-    initializeBoard(); 
+    const startButton = document.getElementById("timer-button");
+    startButton.style.display = "none";
+    initializeBoard(stageNum);
     startTimer(); 
+    
+    
 }
 
 function initializeBoard() {
@@ -27,6 +37,10 @@ function initializeBoard() {
             gameBoard.appendChild(tile);
         });
     });
+
+    const scoreBoard = document.getElementById("score-board");
+
+    scoreBoard.innerText = "score: " + 0;
 }
 
 function populateBoardWithoutMatches() {
@@ -200,16 +214,52 @@ function startTimer() {
     timerInterval = setInterval(() => {
         timeLeft--;
         timerBoard.innerText = `time: ${timeLeft}`;
-        
+        checkIsCleared();
+        if(isCleared == 1)
+        {
+            clearInterval(timerInterval);
+            isCleared = 0;
+            return;
+        }
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             endGame();
-        }
-    }, 1000); 
+            return;
+        }     
+    }, 1000);
+}
+
+function checkIsCleared() {
+    if(curScore == clearScore)
+    {
+        curScore = 0;
+        stageNum++;
+        clearScore = stageNum * 1000;
+        endGame();
+        isCleared = 1;
+        return;
+    }
+    else
+    {
+        return;
+    }
 }
 
 function endGame() {
     alert("끝");
+    const stageBoard = document.getElementById("stage-board");
+    stageBoard.innerText = "stage: " + stageNum;
+    timeLeft = firstTimeLeft + (15 * (stageNum - 1));
+    
+    const timerBoard = document.getElementById("timer-board");
+    timerBoard.innerText = `time: ${timeLeft}`;
+
+    const startButton = document.getElementById("timer-button");
+    startButton.style.display = "block";
+
+    console.log("이제 해야할 단계: " + stageNum);
+    console.log("시간: " + timeLeft);
+    console.log("목표 점수: " + clearScore);
 }
 
 
