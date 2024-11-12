@@ -131,6 +131,7 @@ function swapTiles(tile1, tile2) {
 function checkMatches() {
     let matchFound = false;
     const matchedTiles = new Set();
+    let tempScore = 0;
 
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize - 2; col++) {
@@ -160,14 +161,12 @@ function checkMatches() {
         }
     }
 
-    function getScore() {
-        const scoreBoard = document.getElementById("score-board");
-        curScore += score[matchedTiles.size - 3];
-        scoreBoard.innerText = 'score: ' + curScore;
-    }
-
     if (matchFound) {
-        getScore();
+        tempScore = score[Math.min(matchedTiles.size - 3, score.length - 1)];
+        curScore += tempScore;
+        const scoreBoard = document.getElementById("score-board");
+        scoreBoard.innerText = 'score: ' + curScore;
+
         removeMatchedTiles(Array.from(matchedTiles));
         setTimeout(generateNewTiles, 500);
     }
@@ -234,7 +233,7 @@ function startTimer() {
 }
 
 function checkIsCleared() {
-    if(curScore == clearScore)
+    if(curScore >= clearScore)
     {
         curScore = 0;
         stageNum++;
