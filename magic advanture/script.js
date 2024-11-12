@@ -64,7 +64,7 @@ function handleDragOver(event) {
     event.preventDefault();
 }
 
-// 드랍 시 호출되는 함수
+// 드롭 시 호출되는 함수
 function handleDrop(event) {
     targetTile = event.target;
 
@@ -73,14 +73,20 @@ function handleDrop(event) {
     const row2 = parseInt(targetTile.dataset.row);
     const col2 = parseInt(targetTile.dataset.col);
 
-    // 인접한 타일만 교환 가능하도록 설정
+    // 인접한 타일만 교환 가능하도록 설정 (상하좌우 한 칸 차이만 가능)
     if (
         (Math.abs(row1 - row2) === 1 && col1 === col2) ||
         (Math.abs(col1 - col2) === 1 && row1 === row2)
     ) {
-        swapTiles(draggedTile, targetTile);
+        // 타일을 교환하기 전에 참조를 저장
+        const draggedTileCopy = draggedTile;
+        const targetTileCopy = targetTile;
+
+        swapTiles(draggedTile, targetTile); // 타일 교환
+
         if (!checkMatches()) {
-            setTimeout(() => swapTiles(draggedTile, targetTile), 500); // 매치가 없으면 원래 위치로 복구
+            // 매치가 없으면 원래 위치로 복구
+            setTimeout(() => swapTiles(draggedTileCopy, targetTileCopy), 300);
         }
     }
 }
