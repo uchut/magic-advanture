@@ -1,6 +1,6 @@
 const boardSize = 8;
 const colors = ["red", "blue", "green", "yellow", "purple"];
-const score = 100;
+const score = [50, 100, 200];
 
 let curScore = 0; //현재 점수
 const firstTimeLeft = 45; //1스테이지 제한시간
@@ -9,7 +9,7 @@ let timerInterval; //간격
 
 let stageNum = 1; //단계
 let clearScore = 1000; //목표 점수
-let isCleared = 0; //클리어 여부
+let isCleared = 0; //클리어 여부 1은 클리어 0은 실패
 
 let board = [];
 let draggedTile = null;
@@ -160,11 +160,19 @@ function checkMatches() {
         }
     }
 
+    function getScore() {
+        const scoreBoard = document.getElementById("score-board");
+        curScore += score[matchedTiles.size - 3];
+        scoreBoard.innerText = 'score: ' + curScore;
+    }
+
     if (matchFound) {
         getScore();
         removeMatchedTiles(Array.from(matchedTiles));
         setTimeout(generateNewTiles, 500);
     }
+
+    console.log(matchedTiles);
 
     return matchFound;
 }
@@ -203,11 +211,7 @@ function generateNewTiles() {
     }, 500);
 }
 
-function getScore() {
-    const scoreBoard = document.getElementById("score-board");
-    curScore += score;
-    scoreBoard.innerText = 'score: ' + curScore;
-}
+
 
 function startTimer() {
     const timerBoard = document.getElementById("timer-board");
