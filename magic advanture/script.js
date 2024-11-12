@@ -2,7 +2,7 @@ const boardSize = 8;
 const colors = ["red", "blue", "green", "yellow", "purple"];
 const score = 100;
 let curScore = 0;
-let timeLeft = 60; // 초기 시간 설정 (60초)
+let timeLeft = 60; 
 let timerInterval;
 
 let board = [];
@@ -10,8 +10,8 @@ let draggedTile = null;
 let targetTile = null;
 
 function startGame() {
-    initializeBoard(); // 보드 초기화
-    startTimer(); // 타이머 시작
+    initializeBoard(); 
+    startTimer(); 
 }
 
 function initializeBoard() {
@@ -188,7 +188,6 @@ function getScore() {
     scoreBoard.innerText = 'score: ' + curScore;
 }
 
-// 타이머 시작 함수
 function startTimer() {
     const timerBoard = document.getElementById("timer-board");
     timerInterval = setInterval(() => {
@@ -199,13 +198,12 @@ function startTimer() {
             clearInterval(timerInterval);
             endGame();
         }
-    }, 1000); // 1초마다 업데이트
+    }, 1000); 
 }
 
-// 게임 종료 함수
 function endGame() {
-    alert("시간 종료! 게임이 끝났습니다.");
-    // 추가적인 게임 종료 로직을 여기에 추가할 수 있습니다.
+    alert("끝");
+    
 }
 
 
