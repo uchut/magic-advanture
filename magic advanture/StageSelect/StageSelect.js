@@ -7,18 +7,22 @@ Stage2.addEventListener("click", Stage2Start);            //Stage2 Button에 클
 window.localStorage.setItem("score", "0");
 window.localStorage.setItem("time", "15");
 
-//Stage1Button
+//Stage1Button localstorage test
 function Stage1Start(event) {
+  //match 3 구현에 필요한 변수 값 localstorage에 넣기
+  //개발 방향에 따라 이 부분은 삭제 될 수 있음
   window.localStorage.setItem("score", "30");
   window.localStorage.setItem("time", "45");
   
-  window.location.href = "../localstoragetest/localstoragetest.html"     //여기에 Stage1 시작할 html 파일 넣기, 경로 확인 필수
+  window.location.href = "../3match.html"     //여기에 Stage1 시작할 html 파일 넣기, 경로 확인 필수
 }
 
-//Stage2Button
+//Stage2Button localstorage test
 function Stage2Start(event) {
+  //match 3 구현에 필요한 변수 값 localstorage에 넣기
+  //개발 방향에 따라 이 부분은 삭제 될 수 있음
   window.localStorage.setItem("score", "60");
   window.localStorage.setItem("time", "90");
 
-  window.location.href = "../localstoragetest/localstoragetest.html"     //여기에 Stage2 시작할 html 파일 넣기, 경로 확인 필수
+  window.location.href = "../3match.html"     //여기에 Stage2 시작할 html 파일 넣기, 경로 확인 필수
 }
