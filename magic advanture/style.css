@@ -1,11 +1,14 @@
 body {
-    background-color: #d3d3d3;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
+    background-image: url('images/background01-01.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
 #game-board {
