@@ -1,4 +1,10 @@
-const colors = ["red", "blue", "green", "yellow", "purple"];
+const tileImages = [
+    "images/red.png",
+    "images/blue.png",
+    "images/green.png",
+    "images/yellow.png",
+    "images/purple.png"
+];
 const score = [50, 100, 200];
 
 let curScore = 0; //현재 점수
@@ -65,11 +71,12 @@ function initializeBoard() {
     gameBoard.innerHTML = "";
 
     board.forEach((row, rowIndex) => {
-        row.forEach((color, colIndex) => {
-            const tile = createTileElement(color, rowIndex, colIndex);
+        row.forEach((imageSrc, colIndex) => {
+            const tile = createTileElement(imageSrc, rowIndex, colIndex);
             gameBoard.appendChild(tile);
         });
     });
+    
 
     const scoreBoard = document.getElementById("score-board");
     scoreBoard.innerText = "score: " + 0;
@@ -78,22 +85,24 @@ function initializeBoard() {
 function populateBoardWithoutMatches() {
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize; col++) {
-            let color;
+            let imageSrc;
             do {
-                color = colors[Math.floor(Math.random() * colors.length)];
+                imageSrc = tileImages[Math.floor(Math.random() * tileImages.length)];
             } while (
-                (col >= 2 && color === board[row][col - 1] && color === board[row][col - 2]) ||
-                (row >= 2 && color === board[row - 1][col] && color === board[row - 2][col])
+                (col >= 2 && imageSrc === board[row][col - 1] && imageSrc === board[row][col - 2]) ||
+                (row >= 2 && imageSrc === board[row - 1][col] && imageSrc === board[row - 2][col])
             );
-            board[row][col] = color;
+            board[row][col] = imageSrc;
         }
     }
 }
 
-function createTileElement(color, row, col) {
+
+function createTileElement(imageSrc, row, col) {
     const tile = document.createElement("div");
     tile.classList.add("tile");
-    tile.style.backgroundColor = color;
+    tile.style.backgroundImage = `url(${imageSrc})`;
+    tile.style.backgroundSize = "cover";
     tile.dataset.row = row;
     tile.dataset.col = col;
 
@@ -105,6 +114,7 @@ function createTileElement(color, row, col) {
 
     return tile;
 }
+
 
 function handleDragStart(event) {
     draggedTile = event.target;
@@ -171,7 +181,8 @@ function checkMatches() {
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize - 2; col++) {
             if (
-                board[row][col] && board[row][col] === board[row][col + 1] &&
+                board[row][col] && 
+                board[row][col] === board[row][col + 1] && 
                 board[row][col] === board[row][col + 2]
             ) {
                 matchedTiles.add(`${row},${col}`);
@@ -223,7 +234,13 @@ function removeMatchedTiles(matchedTiles) {
 }
 
 function generateNewTiles() {
-    const gameBoard = document.getElementById("game-board");
+    const newImageSrc = tileImages[Math.floor(Math.random() * tileImages.length)];
+    board[row][col] = newImageSrc;
+
+    const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
+    tile.style.backgroundImage = `url(${newImageSrc})`;
+    tile.classList.remove("hidden");
+
 
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize; col++) {
