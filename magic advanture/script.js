@@ -1,6 +1,12 @@
-const boardSize = 8;
 const colors = ["red", "blue", "green", "yellow", "purple"];
-const score = [500, 1000, 2000];
+const tileImages = [
+    "images/red.png",
+    "images/blue.png",
+    "images/green.png",
+    "images/yellow.png",
+    "images/purple.png"
+];
+const score = [50, 100, 200];
 
 let curScore = 0; //현재 점수
 const firstTimeLeft = 45; //1스테이지 제한시간
@@ -11,6 +17,7 @@ let stageNum = 1; //단계
 let clearScore = 1000; //목표 점수
 let isCleared = false;
 
+let boardSize = 6; // 초기 크기를 6로 설정 (스테이지에 따라 증가)
 let board = [];
 let draggedTile = null;
 let targetTile = null;
@@ -22,52 +29,79 @@ function startGame() {
     const startButton = document.getElementById("timer-button");
     timerBoard.style.display = "block";
     startButton.style.display = "none";
-    initializeBoard(stageNum);
+
+    updateBoardSize(); // 스테이지에 맞게 보드 크기 업데이트
+    initializeBoard(); // 보드 초기화
     isCleared = false;
     isGameActive = true;
     startTimer(); 
-    
-    
+}
+
+function updateBoardSize() {
+    switch (stageNum) {
+        case 1:
+            boardSize = 6; // 1스테이지: 6x6
+            break;
+        case 2:
+            boardSize = 6; // 2스테이지: 6x6
+            break;
+        case 3:
+            boardSize = 8; // 3스테이지: 8x8
+            break;
+        case 4:
+            boardSize = 8; // 4스테이지: 8x8
+            break;
+        case 5:
+            boardSize = 10; // 5스테이지: 10x10
+            break;
+        default:
+            boardSize = 5; // 기본값 (예외 처리)
+    }
 }
 
 function initializeBoard() {
+    updateBoardSize(); // 스테이지에 따라 보드 크기 업데이트
+
+    const gameBoard = document.getElementById("game-board");
+    gameBoard.style.gridTemplateColumns = `repeat(${boardSize}, 1fr)`;
+    gameBoard.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
+
     board = Array.from({ length: boardSize }, () => Array.from({ length: boardSize }, () => null));
     populateBoardWithoutMatches();
 
-    const gameBoard = document.getElementById("game-board");
     gameBoard.innerHTML = "";
 
     board.forEach((row, rowIndex) => {
-        row.forEach((color, colIndex) => {
-            const tile = createTileElement(color, rowIndex, colIndex);
+        row.forEach((imageSrc, colIndex) => {
+            const tile = createTileElement(imageSrc, rowIndex, colIndex);
             gameBoard.appendChild(tile);
         });
     });
 
     const scoreBoard = document.getElementById("score-board");
-
     scoreBoard.innerText = "score: " + 0;
 }
 
 function populateBoardWithoutMatches() {
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize; col++) {
-            let color;
+            let imageSrc;
             do {
-                color = colors[Math.floor(Math.random() * colors.length)];
+                imageSrc = tileImages[Math.floor(Math.random() * tileImages.length)];
             } while (
-                (col >= 2 && color === board[row][col - 1] && color === board[row][col - 2]) ||
-                (row >= 2 && color === board[row - 1][col] && color === board[row - 2][col])
+                (col >= 2 && imageSrc === board[row][col - 1] && imageSrc === board[row][col - 2]) ||
+                (row >= 2 && imageSrc === board[row - 1][col] && imageSrc === board[row - 2][col])
             );
-            board[row][col] = color;
+            board[row][col] = imageSrc;
         }
     }
 }
 
-function createTileElement(color, row, col) {
+function createTileElement(imageSrc, row, col) {
     const tile = document.createElement("div");
     tile.classList.add("tile");
-    tile.style.backgroundColor = color;
+    tile.style.backgroundImage = `url(${imageSrc})`;
+    tile.style.backgroundSize = "cover";
     tile.dataset.row = row;
     tile.dataset.col = col;
 
@@ -125,13 +159,15 @@ function swapTiles(tile1, tile2) {
     const row2 = parseInt(tile2.dataset.row);
     const col2 = parseInt(tile2.dataset.col);
 
+    // 보드 상의 데이터 스왑
     const temp = board[row1][col1];
     board[row1][col1] = board[row2][col2];
     board[row2][col2] = temp;
 
-    const tempColor = tile1.style.backgroundColor;
-    tile1.style.backgroundColor = tile2.style.backgroundColor;
-    tile2.style.backgroundColor = tempColor;
+    // 타일의 배경 이미지 스왑
+    const tempImage = tile1.style.backgroundImage;
+    tile1.style.backgroundImage = tile2.style.backgroundImage;
+    tile2.style.backgroundImage = tempImage;
 }
 
 function checkMatches() {
@@ -145,7 +181,8 @@ function checkMatches() {
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize - 2; col++) {
             if (
-                board[row][col] && board[row][col] === board[row][col + 1] &&
+                board[row][col] && 
+                board[row][col] === board[row][col + 1] && 
                 board[row][col] === board[row][col + 2]
             ) {
                 matchedTiles.add(`${row},${col}`);
@@ -159,8 +196,9 @@ function checkMatches() {
     for (let col = 0; col < boardSize; col++) {
         for (let row = 0; row < boardSize - 2; row++) {
             if (
-                board[row][col] && board[row][col] === board[row + 1][col] &&
-                board[row][col] === board[row + 2][col]
+                board[row][col] && 
+                board[row][col] === board[row+1][col] && 
+                board[row][col] === board[row+2][col]
             ) {
                 matchedTiles.add(`${row},${col}`);
                 matchedTiles.add(`${row + 1},${col}`);
@@ -202,11 +240,11 @@ function generateNewTiles() {
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize; col++) {
             if (board[row][col] === null) {
-                const newColor = colors[Math.floor(Math.random() * colors.length)];
-                board[row][col] = newColor;
+                const newImageSrc = tileImages[Math.floor(Math.random() * tileImages.length)];
+                board[row][col] = newImageSrc;
 
                 const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
-                tile.style.backgroundColor = newColor;
+                tile.style.backgroundImage = `url(${newImageSrc})`;
                 tile.classList.remove("hidden");
             }
         }
@@ -284,6 +322,4 @@ function endGame() {
 
     isGameActive = false;
 }
-
-
 
