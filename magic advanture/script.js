@@ -15,6 +15,8 @@ let board = [];
 let draggedTile = null;
 let targetTile = null;
 
+let isGameActive = false;
+
 function startGame() {
     const timerBoard = document.getElementById("timer-board");
     const startButton = document.getElementById("timer-button");
@@ -22,6 +24,7 @@ function startGame() {
     startButton.style.display = "none";
     initializeBoard(stageNum);
     isCleared = false;
+    isGameActive = true;
     startTimer(); 
     
     
@@ -132,6 +135,9 @@ function swapTiles(tile1, tile2) {
 }
 
 function checkMatches() {
+    if(!isGameActive)
+        return false;
+
     let matchFound = false;
     const matchedTiles = new Set();
     let tempScore = 0;
@@ -254,11 +260,10 @@ function endGame() {
     const stageBoard = document.getElementById("stage-board");
     const timerBoard = document.getElementById("timer-board");
     const startButton = document.getElementById("timer-button");
-    
+    const scoreBoard = document.getElementById("score-board");
 
-    console.log("이제 해야할 단계: " + stageNum);
-    console.log("시간: " + timeLeft);
-    console.log("목표 점수: " + clearScore);
+    scoreBoard.innerText = "score: " + 0;
+
     if (isCleared == true)
     {
         alert("클리어");
@@ -276,6 +281,8 @@ function endGame() {
         timerBoard.innerText = `time: ${timeLeft}`;
         startButton.style.display = "block";
     }
+
+    isGameActive = false;
 }
 
 
