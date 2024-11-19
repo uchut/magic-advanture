@@ -1,3 +1,4 @@
+const colors = ["red", "blue", "green", "yellow", "purple"];
 const tileImages = [
     "images/red.png",
     "images/blue.png",
@@ -76,7 +77,6 @@ function initializeBoard() {
             gameBoard.appendChild(tile);
         });
     });
-    
 
     const scoreBoard = document.getElementById("score-board");
     scoreBoard.innerText = "score: " + 0;
@@ -97,7 +97,6 @@ function populateBoardWithoutMatches() {
     }
 }
 
-
 function createTileElement(imageSrc, row, col) {
     const tile = document.createElement("div");
     tile.classList.add("tile");
@@ -114,7 +113,6 @@ function createTileElement(imageSrc, row, col) {
 
     return tile;
 }
-
 
 function handleDragStart(event) {
     draggedTile = event.target;
@@ -161,13 +159,15 @@ function swapTiles(tile1, tile2) {
     const row2 = parseInt(tile2.dataset.row);
     const col2 = parseInt(tile2.dataset.col);
 
+    // 보드 상의 데이터 스왑
     const temp = board[row1][col1];
     board[row1][col1] = board[row2][col2];
     board[row2][col2] = temp;
 
-    const tempColor = tile1.style.backgroundColor;
-    tile1.style.backgroundColor = tile2.style.backgroundColor;
-    tile2.style.backgroundColor = tempColor;
+    // 타일의 배경 이미지 스왑
+    const tempImage = tile1.style.backgroundImage;
+    tile1.style.backgroundImage = tile2.style.backgroundImage;
+    tile2.style.backgroundImage = tempImage;
 }
 
 function checkMatches() {
@@ -196,8 +196,9 @@ function checkMatches() {
     for (let col = 0; col < boardSize; col++) {
         for (let row = 0; row < boardSize - 2; row++) {
             if (
-                board[row][col] && board[row][col] === board[row + 1][col] &&
-                board[row][col] === board[row + 2][col]
+                board[row][col] && 
+                board[row][col] === board[row+1][col] && 
+                board[row][col] === board[row+2][col]
             ) {
                 matchedTiles.add(`${row},${col}`);
                 matchedTiles.add(`${row + 1},${col}`);
@@ -234,22 +235,16 @@ function removeMatchedTiles(matchedTiles) {
 }
 
 function generateNewTiles() {
-    const newImageSrc = tileImages[Math.floor(Math.random() * tileImages.length)];
-    board[row][col] = newImageSrc;
-
-    const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
-    tile.style.backgroundImage = `url(${newImageSrc})`;
-    tile.classList.remove("hidden");
-
+    const gameBoard = document.getElementById("game-board");
 
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize; col++) {
             if (board[row][col] === null) {
-                const newColor = colors[Math.floor(Math.random() * colors.length)];
-                board[row][col] = newColor;
+                const newImageSrc = tileImages[Math.floor(Math.random() * tileImages.length)];
+                board[row][col] = newImageSrc;
 
                 const tile = document.querySelector(`.tile[data-row="${row}"][data-col="${col}"]`);
-                tile.style.backgroundColor = newColor;
+                tile.style.backgroundImage = `url(${newImageSrc})`;
                 tile.classList.remove("hidden");
             }
         }
