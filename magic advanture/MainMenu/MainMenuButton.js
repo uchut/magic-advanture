@@ -6,7 +6,7 @@ CloseButton.addEventListener("click", ExitClick);                 //CloseButton�
 
 //StartButton 누르면 StageSelect웹창으로 이동
 function StartClick(event) {
-  window.location.href = "../StageSelect/StageSelect.html"
+  window.location.href = "../3match.html"
 }
 
 //CloseButton 누르면 창이 닫힘
