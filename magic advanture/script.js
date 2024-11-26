@@ -287,10 +287,11 @@ function checkIsCleared() {
     else
     {
         if (timeLeft <= 0) {
+            curScore = 0;
+            isCleared = false;
             endGame();
             return;
         } 
-        return;
     }
 }
 
@@ -315,9 +316,13 @@ function endGame() {
     {
         alert("타임아웃");
         stageBoard.innerText = "stage: " + stageNum;
-        timeLeft = firstTimeLeft;
-        timerBoard.innerText = `time: ${timeLeft}`;
+        clearInterval(timerInterval);
+        timeLeft = firstTimeLeft + (15 * (stageNum - 1));
+        stageBoard.innerText = "stage: " + stageNum;
         startButton.style.display = "block";
+        timerBoard.innerText = `time: ${timeLeft}`;
+        timerBoard.style.display = "none";
+        
     }
 
     isGameActive = false;
