@@ -1,0 +1,46 @@
+input.Start {
+    background: url("../images/start.png") no-repeat;
+    width: 155px;
+    height: 70px;
+    border-width: 0;
+    margin-bottom:  30px;
+}
+
+input.Close {
+    background: url("../images/quit.png") no-repeat;
+    width: 155px;
+    height: 70px;
+    border-width: 0;
+}
+
+body {
+    margin: 0;
+}
+
+.BackGround {
+    height: 100vh;
+    width: 100vw;
+    background-image: url('../images/background00.png');
+    background-repeat : no-repeat;
+    background-size : cover;
+}
+
+.Title {
+    background: url("../images/red.png");
+    width: 155px;
+    height: 70px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin: -50px 0 0 -70px;
+    
+}
+
+.GameButton {
+    width: 155px;
+    height: 140px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -50px 0 0 -70px;
+}
