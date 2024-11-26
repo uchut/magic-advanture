@@ -12,9 +12,10 @@ let curScore = 0; //현재 점수
 const firstTimeLeft = 45; //1스테이지 제한시간
 let timeLeft = 45; //실제 카운트다운용 변수
 let timerInterval; //간격
+let timeStageConst = 10; //스테이지 추가 시간 상수
 
 let stageNum = 1; //단계
-let clearScore = 1000; //목표 점수
+let clearScore = 100; //목표 점수
 let isCleared = false;
 
 let boardSize = 6; // 초기 크기를 6로 설정 (스테이지에 따라 증가)
@@ -38,7 +39,7 @@ function startGame() {
 }
 
 function updateBoardSize() {
-    switch (stageNum) {
+    /*switch (stageNum) {
         case 1:
             boardSize = 6; // 1스테이지: 6x6
             break;
@@ -56,7 +57,14 @@ function updateBoardSize() {
             break;
         default:
             boardSize = 5; // 기본값 (예외 처리)
-    }
+    }*/
+    
+    if (stageNum > 0 && stageNum < 5) // 1 ~ 4스테이지
+        boardSize = 8;
+    else if (stageNum == 5)
+        boardSize = 10;
+    else
+        boardSize = 5; // 예외 처리
 }
 
 function initializeBoard() {
@@ -264,22 +272,39 @@ function startTimer() {
     timerInterval = setInterval(() => {
         timeLeft--;
         timerBoard.innerText = `time: ${timeLeft}`;
-        checkIsCleared();
-        if(isCleared == true)
+        if(stageNum > 0 && stageNum < 5)
         {
-            timerBoard.style.display = "none";
-            clearInterval(timerInterval);
+            checkIsCleared();
+            if(isCleared == true)
+            {
+                timerBoard.style.display = "none";
+                clearInterval(timerInterval);
+                return;
+            }  
+        }
+
+        else if (stageNum == 5)
+        {
+            if(timeLeft <= 0)
+            {
+                clearInterval(timerInterval);
+                endGame();
+                return;
+            }
+        }
+        else
             return;
-        }  
+        
     }, 1000);
 }
 
 function checkIsCleared() {
+
     if(curScore >= clearScore)
     {
         curScore = 0;
         stageNum++;
-        clearScore = stageNum * 1000;
+        clearScore = stageNum * 100; //test
         isCleared = true;
         endGame();
         return;
@@ -295,6 +320,11 @@ function checkIsCleared() {
     }
 }
 
+function clearScene()
+{
+
+}
+
 function endGame() {
     const stageBoard = document.getElementById("stage-board");
     const timerBoard = document.getElementById("timer-board");
@@ -307,23 +337,37 @@ function endGame() {
     {
         alert("클리어");
         stageBoard.innerText = "stage: " + stageNum;
-        timeLeft = firstTimeLeft + (15 * (stageNum - 1));
+        timeLeft = firstTimeLeft + (timeStageConst * (stageNum - 1)) + timeLeft;
         timerBoard.innerText = `time: ${timeLeft}`;
+        timerBoard.style.display = "block";
         startButton.style.display = "block";
     }
 
-    else
+    else if (isCleared == false && ((stageNum > 0) && (stageNum < 5)))
     {
         alert("타임아웃");
         stageBoard.innerText = "stage: " + stageNum;
         clearInterval(timerInterval);
-        timeLeft = firstTimeLeft + (15 * (stageNum - 1));
+        timeLeft = firstTimeLeft + (timeStageConst * (stageNum - 1));
         stageBoard.innerText = "stage: " + stageNum;
         startButton.style.display = "block";
         timerBoard.innerText = `time: ${timeLeft}`;
         timerBoard.style.display = "none";
         
     }
+
+    else if (stageNum == 5)
+    {
+        const newScene = document.createElement("div");
+
+        document.body.innerHTML = "";
+        const finalScoreText = document.createElement("p");
+        finalScoreText.innerText = `최종 점수: ${curScore}`;
+        newScene.appendChild(finalScoreText);
+        document.body.appendChild(newScene);
+
+    }
+
 
     isGameActive = false;
 }
