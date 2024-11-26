@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url('images/background01-01.png');
+    background-image: url('images/background01-01.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -17,7 +17,7 @@ body {
     gap: 5px;
     width: 400px;
     height: 400px;
-    margin: auto;
+    margin: 36px;
 }
 
 .tile {
@@ -32,4 +32,8 @@ body {
 .tile.hidden {
     opacity: 0;
     transform: scale(0.8);
+}
+
+.BackGround-tile {
+    background: url('images/background-tile.png') no-repeat;
 }
