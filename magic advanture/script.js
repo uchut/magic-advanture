@@ -331,7 +331,6 @@ function endGame() {
         timerBoard.style.display = "block";
         startButton.style.display = "block";
     }
-
     else if (isCleared == false && ((stageNum > 0) && (stageNum < 5)))
     {
         alert("타임아웃");
@@ -344,7 +343,6 @@ function endGame() {
         timerBoard.style.display = "none";
         
     }
-
     else if (stageNum == 5)
     {
         const newScene = document.createElement("div");
@@ -354,8 +352,7 @@ function endGame() {
         finalScoreText.innerText = `최종 점수: ${curScore}`;
         newScene.appendChild(finalScoreText);
         document.body.appendChild(newScene);
-
-    }
+    }   
 
 
     isGameActive = false;
