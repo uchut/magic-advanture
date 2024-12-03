@@ -6,11 +6,13 @@ const tileImages = [
     "images/yellow.png",
     "images/purple.png"
 ];
-const score = [50, 100, 200];
+const score = [500, 1000, 2000];
+
+GameStart.addEventListener("click", startGame);     //game start 버튼 이벤트 추가
 
 let curScore = 0; //현재 점수
-const firstTimeLeft = 60; //1스테이지 제한시간
-let timeLeft = 60; //실제 카운트다운용 변수
+const firstTimeLeft = 25; //1스테이지 제한시간
+let timeLeft = 25; //실제 카운트다운용 변수
 let timerInterval; //간격
 let timeStageConst = 10; //스테이지 추가 시간 상수
 
@@ -24,6 +26,13 @@ let draggedTile = null;
 let targetTile = null;
 
 let isGameActive = false;
+
+function startgameevent(event) {
+    timeLeft = 25;
+    stageNum = 1;
+    clearScore = 500;
+    startGame();
+}
 
 function startGame() {
     const timerBoard = document.getElementById("timer-board");
@@ -331,6 +340,8 @@ function checkIsCleared() {
     {
         if (timeLeft <= 0) {
             curScore = 0;
+            stageNum = 1;
+            clearScore = 500;
             isCleared = false;
             endGame();
             return;
@@ -385,12 +396,24 @@ function endGame() {
     else if (isCleared == false && ((stageNum > 0) && (stageNum < 5)))
     {
         alert("타임아웃");
-        stageBoard.innerText = "stage: " + stageNum;
+        document.getElementById('stage').src = `images/numbers/${stageNum}.png`;
         clearInterval(timerInterval);
-        timeLeft = firstTimeLeft + (timeStageConst * (stageNum - 1));
-        stageBoard.innerText = "stage: " + stageNum;
+        timeLeft = firstTimeLeft
+
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+
+        const minuteTens = Math.floor(minutes / 10);
+        const minuteOnes = minutes % 10;
+        const secondTens = Math.floor(seconds / 10);
+        const secondOnes = seconds % 10;
+
+        document.getElementById('digit1').src = `images/numbers/${minuteTens}.png`;
+        document.getElementById('digit2').src = `images/numbers/${minuteOnes}.png`;
+        document.getElementById('digit3').src = `images/numbers/${secondTens}.png`;
+        document.getElementById('digit4').src = `images/numbers/${secondOnes}.png`;
+
         startButton.style.display = "block";
-        timerBoard.innerText = `time: ${timeLeft}`;
         timerBoard.style.display = "none";
         
     }
@@ -398,12 +421,19 @@ function endGame() {
     else if (stageNum == 5)
     {
         const newScene = document.createElement("div");
+        const newGame = document.createElement("button");
+        const btntext = document.createTextNode("newGame");
+
+        newGame.appendChild(btntext);
+
+        
 
         document.body.innerHTML = "";
         const finalScoreText = document.createElement("p");
         finalScoreText.innerText = `최종 점수: ${curScore}`;
         newScene.appendChild(finalScoreText);
         document.body.appendChild(newScene);
+        document.body.appendChild(newGame);
 
     }
 

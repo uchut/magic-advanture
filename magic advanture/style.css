@@ -37,3 +37,11 @@ body {
 .BackGround-tile {
     background: url('images/background-tile.png') no-repeat;
 }
+
+input.GameStartButton {
+    background: url("images/start.png") no-repeat;
+    width: 155px;
+    height: 70px;
+    border-width: 0;
+    margin-bottom:  30px;
+}

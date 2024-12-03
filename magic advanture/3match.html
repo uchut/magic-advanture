@@ -11,14 +11,20 @@
         <div id="game-board"></div>
     </div>
     <div id="timer-board" style="position: fixed; top: 20px;">
+        <img src="images/alphabet/T.png">
+        <img src="images/alphabet/I.png">
+        <img src="images/alphabet/M.png">
+        <img src="images/alphabet/E.png">
+        <img src="images/numbers/colon.png">
         <img class="digit" id="digit1" src="images/numbers/0.png" alt="0">
         <img class="digit" id="digit2" src="images/numbers/1.png" alt="1">
-        <span>:</span>
+        <img id="colon" src="images/numbers/colon.png" alt=":">
         <img class="digit" id="digit3" src="images/numbers/0.png" alt="0">
         <img class="digit" id="digit4" src="images/numbers/0.png" alt="0">
     </div>
     <div id="timer-button" style="position: fixed; top: 50px">
-        <button onclick="startGame()">start</button>
+        <input type="button" class="GameStartButton" id='GameStart'>
+        </input>
     </div>
     <div id="stage-board" style="position: fixed; left: 30px">
         stage: 
