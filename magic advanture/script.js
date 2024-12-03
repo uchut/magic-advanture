@@ -9,8 +9,8 @@ const tileImages = [
 const score = [50, 100, 200];
 
 let curScore = 0; //현재 점수
-const firstTimeLeft = 60; //1스테이지 제한시간
-let timeLeft = 60; //실제 카운트다운용 변수
+const firstTimeLeft = 50; //1스테이지 제한시간
+let timeLeft = 50; //실제 카운트다운용 변수
 let timerInterval; //간격
 let timeStageConst = 10; //스테이지 추가 시간 상수
 
@@ -18,7 +18,7 @@ let stageNum = 1; //단계
 let clearScore = 500; //목표 점수
 let isCleared = false;
 
-let boardSize = 7; // 초기 크기를 6로 설정 (스테이지에 따라 증가)
+let boardSize = 7; // 초기 크기를 7로 설정 (스테이지에 따라 증가)
 let board = [];
 let draggedTile = null;
 let targetTile = null;
@@ -41,10 +41,10 @@ function startGame() {
 function updateBoardSize() {
     switch (stageNum) {
         case 1:
-            boardSize = 7; // 1스테이지: 6x6
+            boardSize = 7; // 1스테이지: 7x7
             break;
         case 2:
-            boardSize = 7; // 2스테이지: 6x6
+            boardSize = 7; // 2스테이지: 7x7
             break;
         case 3:
             boardSize = 8; // 3스테이지: 8x8
@@ -53,7 +53,7 @@ function updateBoardSize() {
             boardSize = 8; // 4스테이지: 8x8
             break;
         case 5:
-            boardSize = 9; // 5스테이지: 10x10
+            boardSize = 9; // 5스테이지: 9x9
             break;
         default:
             boardSize = 5; // 기본값 (예외 처리)
