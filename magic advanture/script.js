@@ -80,7 +80,7 @@ function initializeBoard() {
     });
 
     const scoreBoard = document.getElementById("score-board");
-    scoreBoard.innerText = "score: " + 0;
+    //scoreBoard.innerText = "score: " + 0;
 }
 
 function populateBoardWithoutMatches() {
@@ -213,7 +213,22 @@ function checkMatches() {
         tempScore = score[Math.min(matchedTiles.size - 3, score.length - 1)];
         curScore += tempScore;
         const scoreBoard = document.getElementById("score-board");
-        scoreBoard.innerText = 'score: ' + curScore;
+
+        const Scorethousand = Math.floor(curScore / 1000);
+        let tempcurScore = curScore % 1000;
+        const Scorehundread = Math.floor(tempcurScore / 100);
+        tempcurScore = curScore % 100;
+        const Scoreten = Math.floor(tempcurScore / 10);
+        const Scoreone = curScore % 10;
+
+        
+        document.getElementById('score1').src = `images/numbers/${Scorethousand}.png`;
+        document.getElementById('score2').src = `images/numbers/${Scorehundread}.png`;
+        document.getElementById('score3').src = `images/numbers/${Scoreten}.png`;
+        document.getElementById('score4').src = `images/numbers/${Scoreone}.png`;
+        
+
+        //scoreBoard.innerText = 'score: ' + curScore;
 
         removeMatchedTiles(Array.from(matchedTiles));
         setTimeout(generateNewTiles, 500);
@@ -263,14 +278,24 @@ function generateNewTiles() {
 function startTimer() {
     const timerBoard = document.getElementById("timer-board");
     timerInterval = setInterval(() => {
-        timeLeft--;
-        timerBoard.innerText = `time: ${timeLeft}`;
+        const minutes = Math.floor(--timeLeft / 60);
+        const seconds = timeLeft % 60;
+
+        const minuteTens = Math.floor(minutes / 10);
+        const minuteOnes = minutes % 10;
+        const secondTens = Math.floor(seconds / 10);
+        const secondOnes = seconds % 10;
+
+        document.getElementById('digit1').src = `images/numbers/${minuteTens}.png`;
+        document.getElementById('digit2').src = `images/numbers/${minuteOnes}.png`;
+        document.getElementById('digit3').src = `images/numbers/${secondTens}.png`;
+        document.getElementById('digit4').src = `images/numbers/${secondOnes}.png`;
+
         if(stageNum > 0 && stageNum < 5)
         {
             checkIsCleared();
             if(isCleared == true)
             {
-                timerBoard.style.display = "none";
                 clearInterval(timerInterval);
                 return;
             }  
@@ -324,14 +349,35 @@ function endGame() {
     const startButton = document.getElementById("timer-button");
     const scoreBoard = document.getElementById("score-board");
 
-    scoreBoard.innerText = "score: " + 0;
+    document.getElementById('score1').src = `images/numbers/0.png`;
+    document.getElementById('score2').src = `images/numbers/0.png`;
+    document.getElementById('score3').src = `images/numbers/0.png`;
+    document.getElementById('score4').src = `images/numbers/0.png`;
+
+    //scoreBoard.innerText = "score: " + 0;
 
     if (isCleared == true)
     {
         alert("클리어");
-        stageBoard.innerText = "stage: " + stageNum;
+        document.getElementById('stage').src = `images/numbers/${stageNum}.png`;
+        //stageBoard.innerText = "stage: " + stageNum;
         timeLeft = firstTimeLeft - (timeStageConst * (stageNum - 1)) + timeLeft;
-        timerBoard.innerText = `time: ${timeLeft}`;
+
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+
+        const minuteTens = Math.floor(minutes / 10);
+        const minuteOnes = minutes % 10;
+        const secondTens = Math.floor(seconds / 10);
+        const secondOnes = seconds % 10;
+
+        document.getElementById('digit1').src = `images/numbers/${minuteTens}.png`;
+        document.getElementById('digit2').src = `images/numbers/${minuteOnes}.png`;
+        document.getElementById('digit3').src = `images/numbers/${secondTens}.png`;
+        document.getElementById('digit4').src = `images/numbers/${secondOnes}.png`;
+
+        
+        //timerBoard.innerText = `time: ${timeLeft}`;
         timerBoard.style.display = "block";
         startButton.style.display = "block";
     }
