@@ -305,6 +305,8 @@ function checkIsCleared() {
     {
         if (timeLeft <= 0) {
             curScore = 0;
+            stageNum = 1;
+            clearScore = 500
             isCleared = false;
             endGame();
             return;
@@ -333,10 +335,10 @@ function endGame() {
     else if (isCleared == false && ((stageNum > 0) && (stageNum < 5)))
     {
         alert("타임아웃");
+
         stageBoard.innerText = "stage: " + stageNum;
         clearInterval(timerInterval);
-        timeLeft = firstTimeLeft + (timeStageConst * (stageNum - 1));
-        stageBoard.innerText = "stage: " + stageNum;
+        timeLeft = firstTimeLeft
         startButton.style.display = "block";
         timerBoard.innerText = `time: ${timeLeft}`;
         timerBoard.style.display = "none";
