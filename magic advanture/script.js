@@ -1,24 +1,24 @@
-const colors = ["red", "blue", "green", "yellow", "purple"];
-const tileImages = [
+const colors = ["red", "blue", "green", "yellow", "purple"];        //tile 색 정보 저장
+const tileImages = [                                                //tile 이미지 정보 저장
     "images/red.png",
     "images/blue.png",
     "images/green.png",
     "images/yellow.png",
     "images/purple.png"
 ];
-const score = [500, 1000, 2000];
+const score = [50, 100, 200];                                    //점수 각각 3개, 4개, 5개 매치일 때 얻는 점수이다.
 
-GameStart.addEventListener("click", startGame);     //game start 버튼 이벤트 추가
+GameStart.addEventListener("click", startGame);     //game start 버튼 이벤트 추가 추가 된 것
 
 let curScore = 0; //현재 점수
-const firstTimeLeft = 25; //1스테이지 제한시간
-let timeLeft = 25; //실제 카운트다운용 변수
+const firstTimeLeft = 50; //1스테이지 제한시간
+let timeLeft = 50; //실제 카운트다운용 변수
 let timerInterval; //간격
 let timeStageConst = 10; //스테이지 추가 시간 상수
 
 let stageNum = 1; //단계
 let clearScore = 500; //목표 점수
-let isCleared = false;
+let isCleared = false;                              // 스테이지 클리어 확인이다. 기본 값은 false이다.
 
 let boardSize = 7; // 초기 크기를 6로 설정 (스테이지에 따라 증가)
 let board = [];
@@ -27,6 +27,7 @@ let targetTile = null;
 
 let isGameActive = false;
 
+//바꾼 부분 / 스타트버튼 이벤트 할당이다.
 function startgameevent(event) {
     timeLeft = 25;
     stageNum = 1;
@@ -62,7 +63,7 @@ function updateBoardSize() {
             boardSize = 8; // 4스테이지: 8x8
             break;
         case 5:
-            boardSize = 9; // 5스테이지: 10x10
+            boardSize = 9; // 5스테이지: 9x9
             break;
         default:
             boardSize = 5; // 기본값 (예외 처리)
@@ -420,21 +421,8 @@ function endGame() {
 
     else if (stageNum == 5)
     {
-        const newScene = document.createElement("div");
-        const newGame = document.createElement("button");
-        const btntext = document.createTextNode("newGame");
-
-        newGame.appendChild(btntext);
-
-        
-
-        document.body.innerHTML = "";
-        const finalScoreText = document.createElement("p");
-        finalScoreText.innerText = `최종 점수: ${curScore}`;
-        newScene.appendChild(finalScoreText);
-        document.body.appendChild(newScene);
-        document.body.appendChild(newGame);
-
+        localStorage.setItem("score", curScore);
+        window.location.href = "stageclear/clear.html"
     }
 
 

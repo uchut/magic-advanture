@@ -3,35 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Match 3 Game</title>
+    <title>Magic Adventure</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="BackGround-tile">
         <div id="game-board"></div>
     </div>
-    <div id="timer-board" style="position: fixed; top: 20px;">
-        <img src="images/alphabet/T.png">
-        <img src="images/alphabet/I.png">
-        <img src="images/alphabet/M.png">
-        <img src="images/alphabet/E.png">
-        <img src="images/numbers/colon.png">
+    <div id="timer-board">
+        <img src="images/time.png">
         <img class="digit" id="digit1" src="images/numbers/0.png" alt="0">
-        <img class="digit" id="digit2" src="images/numbers/1.png" alt="1">
-        <img id="colon" src="images/numbers/colon.png" alt=":">
-        <img class="digit" id="digit3" src="images/numbers/0.png" alt="0">
+        <img class="digit" id="digit2" src="images/numbers/0.png" alt="0">
+        <img id="colon" src="images/colon.png" alt=":">
+        <img class="digit" id="digit3" src="images/numbers/5.png" alt="5">
         <img class="digit" id="digit4" src="images/numbers/0.png" alt="0">
     </div>
-    <div id="timer-button" style="position: fixed; top: 50px">
+    <div id="timer-button">
         <input type="button" class="GameStartButton" id='GameStart'>
         </input>
     </div>
-    <div id="stage-board" style="position: fixed; left: 30px">
-        stage: 
+    <div id="stage-board" style="position: fixed; left: 40px; ">
+        <img src="images/stage.png">
         <img class="digit" id="stage" src="images/numbers/1.png" alt="1">
     </div>
     <div id="score-board" style="position: fixed; bottom: 30px;">
-        score:
+        <img src="images/score.png">
         <img class="digit" id="score1" src="images/numbers/0.png" alt="0">
         <img class="digit" id="score2" src="images/numbers/0.png" alt="0">
         <img class="digit" id="score3" src="images/numbers/0.png" alt="0">

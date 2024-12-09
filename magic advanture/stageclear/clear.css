@@ -1,0 +1,36 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('../images/background01-01.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+input.Start {
+    background: url("../images/start.png") no-repeat;
+    width: 155px;
+    height: 70px;
+    border-width: 0;
+    margin-bottom:  30px;
+}
+
+input.Close {
+    background: url("../images/quit.png") no-repeat;
+    width: 155px;
+    height: 70px;
+    border-width: 0;
+}
+
+.button-board {
+    width: 155px;
+    height: 140px;
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    margin: -50px 0 0 -70px;
+}
