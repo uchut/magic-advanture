@@ -7,10 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="BackGround-tile">
+    <div class="BackGround-tile"><!--게임 보드 생성-->
         <div id="game-board"></div>
     </div>
-    <div id="timer-board">
+    <div id="timer-board"><!--타이머 보드 생성-->
         <img src="images/time.png">
         <img class="digit" id="digit1" src="images/numbers/0.png" alt="0">
         <img class="digit" id="digit2" src="images/numbers/0.png" alt="0">
@@ -18,15 +18,15 @@
         <img class="digit" id="digit3" src="images/numbers/5.png" alt="5">
         <img class="digit" id="digit4" src="images/numbers/0.png" alt="0">
     </div>
-    <div id="timer-button">
+    <div id="timer-button"><!--게임 시작 버튼 생성-->
         <input type="button" class="GameStartButton" id='GameStart'>
         </input>
     </div>
-    <div id="stage-board" style="position: fixed; left: 40px; ">
+    <div id="stage-board" style="position: fixed; left: 40px; "><!--스테이지 표시 보드 생성-->
         <img src="images/stage.png">
         <img class="digit" id="stage" src="images/numbers/1.png" alt="1">
     </div>
-    <div id="score-board" style="position: fixed; bottom: 30px;">
+    <div id="score-board" style="position: fixed; bottom: 30px;"><!--점수 표시 보드 생성-->
         <img src="images/score.png">
         <img class="digit" id="score1" src="images/numbers/0.png" alt="0">
         <img class="digit" id="score2" src="images/numbers/0.png" alt="0">

@@ -21,20 +21,13 @@ let clearScore = 500; //목표 점수
 let isCleared = false;                              // 스테이지 클리어 확인이다. 기본 값은 false이다.
 
 let boardSize = 7; // 초기 크기를 6로 설정 (스테이지에 따라 증가)
-let board = [];
-let draggedTile = null;
-let targetTile = null;
+let board = [];     //타일 정보를 저장할 보드 생성
+let draggedTile = null; //조작한 타일 정보 저장
+let targetTile = null;  //매치 확인을 위한 타일 정보 저장
 
-let isGameActive = false;
+let isGameActive = false;   //게임 생성 여부 확인           
 
-//바꾼 부분 / 스타트버튼 이벤트 할당이다.
-function startgameevent(event) {
-    timeLeft = 25;
-    stageNum = 1;
-    clearScore = 500;
-    startGame();
-}
-
+//각 스테이지 별 게임 판 생성 함수
 function startGame() {
     const timerBoard = document.getElementById("timer-board");
     const startButton = document.getElementById("timer-button");
@@ -43,11 +36,12 @@ function startGame() {
 
     updateBoardSize(); // 스테이지에 맞게 보드 크기 업데이트
     initializeBoard(); // 보드 초기화
-    isCleared = false;
+    isCleared = false;  
     isGameActive = true;
-    startTimer(); 
+    startTimer();       
 }
 
+//각 스테이지 별 보드 사이즈를 설정하는 함수
 function updateBoardSize() {
     switch (stageNum) {
         case 1:
@@ -70,6 +64,7 @@ function updateBoardSize() {
     }
 }
 
+//보드판 초기화
 function initializeBoard() {
     updateBoardSize(); // 스테이지에 따라 보드 크기 업데이트
 
@@ -78,21 +73,20 @@ function initializeBoard() {
     gameBoard.style.gridTemplateRows = `repeat(${boardSize}, 1fr)`;
 
     board = Array.from({ length: boardSize }, () => Array.from({ length: boardSize }, () => null));
-    populateBoardWithoutMatches();
+    populateBoardWithoutMatches();  //판 생성 과정에서 매치되는 타일들이 존재하는지 확인
 
     gameBoard.innerHTML = "";
 
+    //게임보드에 모든 tile 정보 저장
     board.forEach((row, rowIndex) => {
         row.forEach((imageSrc, colIndex) => {
             const tile = createTileElement(imageSrc, rowIndex, colIndex);
             gameBoard.appendChild(tile);
         });
     });
-
-    const scoreBoard = document.getElementById("score-board");
-    //scoreBoard.innerText = "score: " + 0;
 }
 
+//보드판에 매치되는 타일들을 검사
 function populateBoardWithoutMatches() {
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize; col++) {
@@ -108,6 +102,7 @@ function populateBoardWithoutMatches() {
     }
 }
 
+//타일 생성
 function createTileElement(imageSrc, row, col) {
     const tile = document.createElement("div");
     tile.classList.add("tile");
@@ -125,6 +120,7 @@ function createTileElement(imageSrc, row, col) {
     return tile;
 }
 
+//타일에 드래그 이벤트 할당
 function handleDragStart(event) {
     draggedTile = event.target;
 }
@@ -164,6 +160,7 @@ function handleDragEnd() {
     targetTile = null;
 }
 
+//타일 위치 변경
 function swapTiles(tile1, tile2) {
     const row1 = parseInt(tile1.dataset.row);
     const col1 = parseInt(tile1.dataset.col);
@@ -181,6 +178,7 @@ function swapTiles(tile1, tile2) {
     tile2.style.backgroundImage = tempImage;
 }
 
+//매치 여부 확인
 function checkMatches() {
     if(!isGameActive)
         return false;
@@ -189,6 +187,7 @@ function checkMatches() {
     const matchedTiles = new Set();
     let tempScore = 0;
 
+    //매치되는지 확인하는 과정
     for (let row = 0; row < boardSize; row++) {
         for (let col = 0; col < boardSize - 2; col++) {
             if (
@@ -219,6 +218,7 @@ function checkMatches() {
         }
     }
 
+    //매치가 되었을 때 점수를 추가한다.
     if (matchFound) {
         tempScore = score[Math.min(matchedTiles.size - 3, score.length - 1)];
         curScore += tempScore;
@@ -238,8 +238,6 @@ function checkMatches() {
         document.getElementById('score4').src = `images/numbers/${Scoreone}.png`;
         
 
-        //scoreBoard.innerText = 'score: ' + curScore;
-
         removeMatchedTiles(Array.from(matchedTiles));
         setTimeout(generateNewTiles, 500);
     }
@@ -249,6 +247,7 @@ function checkMatches() {
     return matchFound;
 }
 
+//매치된 타일 제가
 function removeMatchedTiles(matchedTiles) {
     matchedTiles.forEach(tilePos => {
         const [row, col] = tilePos.split(',').map(Number);
@@ -260,6 +259,7 @@ function removeMatchedTiles(matchedTiles) {
     });
 }
 
+//새 타일 생성
 function generateNewTiles() {
     const gameBoard = document.getElementById("game-board");
 
@@ -326,6 +326,7 @@ function startTimer() {
     }, 1000);
 }
 
+//클리어 여부 확인
 function checkIsCleared() {
 
     if(curScore >= clearScore)
@@ -350,11 +351,7 @@ function checkIsCleared() {
     }
 }
 
-function clearScene()
-{
-
-}
-
+//게임 종료시 사용하는 함수
 function endGame() {
     const stageBoard = document.getElementById("stage-board");
     const timerBoard = document.getElementById("timer-board");
@@ -366,13 +363,10 @@ function endGame() {
     document.getElementById('score3').src = `images/numbers/0.png`;
     document.getElementById('score4').src = `images/numbers/0.png`;
 
-    //scoreBoard.innerText = "score: " + 0;
-
     if (isCleared == true)
     {
         alert("클리어");
         document.getElementById('stage').src = `images/numbers/${stageNum}.png`;
-        //stageBoard.innerText = "stage: " + stageNum;
         timeLeft = firstTimeLeft - (timeStageConst * (stageNum - 1)) + timeLeft;
 
         const minutes = Math.floor(timeLeft / 60);
@@ -388,8 +382,6 @@ function endGame() {
         document.getElementById('digit3').src = `images/numbers/${secondTens}.png`;
         document.getElementById('digit4').src = `images/numbers/${secondOnes}.png`;
 
-        
-        //timerBoard.innerText = `time: ${timeLeft}`;
         timerBoard.style.display = "block";
         startButton.style.display = "block";
     }
